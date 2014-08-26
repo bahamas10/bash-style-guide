@@ -189,6 +189,7 @@ for f in $(ls); do
     ...
 done
 
+# right
 for f in *; do
     ...
 done
