@@ -21,6 +21,16 @@ tabs.
 
 You don't use semicolons on the command line (I hope), don't use them in scripts.
 
+``` bash
+# wrong
+name='dave';
+echo "hello $name";
+
+#right
+name='dave'
+echo "hello $name"
+```
+
 ### Functions
 
 Don't use the `function` keyword.  All variables created in a function should be
