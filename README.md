@@ -180,7 +180,7 @@ nonumbers=${name//[0-9]/}
 
 ### Listing Files
 
-Do not [parse ls(1)](http://mywiki.wooledge.org/ParsingLs), instead us
+Do not [parse ls(1)](http://mywiki.wooledge.org/ParsingLs), instead use
 bash builtin functions to loop files
 
 ``` bash
