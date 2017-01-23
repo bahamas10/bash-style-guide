@@ -7,8 +7,8 @@ on [this wiki](http://mywiki.wooledge.org), specifically this page:
 
 http://mywiki.wooledge.org/BashGuide/Practices
 
-If anything is not mentioned explicitly in this guide, it defaults to matching whatever
-is outlined in the wiki.
+If anything is not mentioned explicitly in this guide, it defaults to matching
+whatever is outlined in the wiki.
 
 Aesthetics
 ----------
@@ -17,9 +17,14 @@ Aesthetics
 
 tabs.
 
+### Columns
+
+not to exceed 80.
+
 ### Semicolons
 
-You don't use semicolons on the command line (I hope), don't use them in scripts.
+You don't use semicolons on the command line (I hope), don't use them in
+scripts.
 
 ``` bash
 # wrong
@@ -33,8 +38,8 @@ echo "hello $name"
 
 ### Functions
 
-Don't use the `function` keyword.  All variables created in a function should be
-made local.
+Don't use the `function` keyword.  All variables created in a function should
+be made local.
 
 ``` bash
 # wrong
@@ -73,12 +78,13 @@ fi
 
 ### Spacing
 
-No more than 2 consecutive newline characters (ie. no more than 1 blank line in a row)
+No more than 2 consecutive newline characters (ie. no more than 1 blank line in
+a row)
 
 ### Comments
 
-No explicit style guide for comments.  Don't change someones comments for aesthetic reasons
-unless you are rewriting or updating them.
+No explicit style guide for comments.  Don't change someones comments for
+aesthetic reasons unless you are rewriting or updating them.
 
 Bashisms
 --------
@@ -163,7 +169,8 @@ Do **not** use the `let` command.
 
 ### Parameter Expansion
 
-Always prefer [parameter expansion](http://mywiki.wooledge.org/BashGuide/Parameters#Parameter_Expansion)
+Always prefer [parameter
+expansion](http://mywiki.wooledge.org/BashGuide/Parameters#Parameter_Expansion)
 over external commands like `echo`, `sed`, `awk`, etc.
 
 ``` bash
@@ -197,9 +204,8 @@ done
 
 ### Determining path of the executable (`__dirname`)
 
-Simply stated, you can't know this for sure.  If you are trying to find
-out the full path of the executing program, you should rethink your software
-design.
+Simply stated, you can't know this for sure.  If you are trying to find out the
+full path of the executing program, you should rethink your software design.
 
 See http://mywiki.wooledge.org/BashFAQ/028 for more information
 
@@ -209,8 +215,8 @@ http://daveeddy.com/2015/04/13/dirname-case-study-for-bash-and-node/
 
 ### Arrays and lists
 
-Use bash arrays instead of a string separated by spaces (or newlines, tabs, etc.)
-whenever possible
+Use bash arrays instead of a string separated by spaces (or newlines, tabs,
+etc.) whenever possible
 
 ``` bash
 # wrong
@@ -226,16 +232,26 @@ for module in "${modules[@]}"; do
 done
 ```
 
+Of course, in this example it may be better expressed as:
+
+``` bash
+npm install -g "${modules[@]}"
+```
+
+... if the command supports multiple arguments, and you are not interested in
+catching individual failures.
+
 ### read builtin
 
-Use the bash `read` builtin whenever possible to avoid forking external commands
+Use the bash `read` builtin whenever possible to avoid forking external
+commands
 
 Example
 
 ``` bash
 fqdn='computer1.daveeddy.com'
 
-IFS=. read hostname domain tld <<< "$fqdn"
+IFS=. read -r hostname domain tld <<< "$fqdn"
 echo "$hostname is in $domain.$tld"
 # => "computer1 is in daveeddy.com"
 ```
@@ -250,12 +266,12 @@ when forking external commands like `awk`, `sed`, `grep`, etc. to be as
 portable as possible.
 
 When writing bash and using all the powerful tools and builtins bash gives you,
-you'll find it very rare that you need to fork external commands.
+you'll find it rare that you need to fork external commands.
 
 ### [UUOC](http://www.smallo.ruhr.de/award.html)
 
-Don't use `cat(1)` when you don't need it.  If programs support reading from stdin,
-pass the data in using bash redirection.
+Don't use `cat(1)` when you don't need it.  If programs support reading from
+stdin, pass the data in using bash redirection.
 
 ``` bash
 # wrong
@@ -270,7 +286,7 @@ grep foo file
 
 Prefer using a command line tools builtin method of reading a file instead of
 passing in stdin.  This is where we make the inference that, if a program says
-it can read a file passed by name, it's probably more performant to do so.
+it can read a file passed by name, it's probably more performant to do that.
 
 Style
 -----
@@ -292,21 +308,24 @@ foo="hello world"
 bar='You are $USER'
 ```
 
-All variables that will undergo word-splitting *must* be quoted (1).  If no splitting
-will happen, the variable may remain unquoted.
+All variables that will undergo word-splitting *must* be quoted (1).  If no
+splitting will happen, the variable may remain unquoted.
 
 ``` bash
 foo='hello world'
 
-if [[ -n $foo ]]; then   # no quotes needed - [[ ... ]] won't word-split variable expansions
+if [[ -n $foo ]]; then   # no quotes needed:
+                         # [[ ... ]] won't word-split variable expansions
+
     echo "$foo"          # quotes needed
 fi
 
 bar=$foo  # no quotes needed - variable assignment doesn't word-split
 ```
 
-1. The only exception to this rule is if the code or bash controls the variable for the
-duration of its lifetime.  For instance, [basher](https://github.com/bahamas10/basher) has code like:
+1. The only exception to this rule is if the code or bash controls the variable
+for the duration of its lifetime.  For instance,
+[basher](https://github.com/bahamas10/basher) has code like:
 
 ``` bash
 printf_date_supported=false
@@ -326,7 +345,8 @@ variable are controlled explicitly and not taken from a user or command.
 Also, variables like `$$`, `$?`, `$#`, etc. don't required quotes because they
 will never contain spaces, tabs, or newlines.
 
-When in doubt however, [quote all expansions](http://mywiki.wooledge.org/Quotes).
+When in doubt however, [quote all
+expansions](http://mywiki.wooledge.org/Quotes).
 
 ### Variable Declaration
 
@@ -350,16 +370,18 @@ foobar=baz
 
 ### shebang
 
-Bash is not always located at `/bin/bash`, so always use this line:
+Bash is not always located at `/bin/bash`, so use this line:
 
 ``` bash
 #!/usr/bin/env bash
 ```
 
+Unless you have a reason to use something else.
+
 ### Error Checking
 
-`cd`, for example, doesn't always work.  Make sure to check for any possible errors
-for `cd` (or commands like it) and exit or break if they are present.
+`cd`, for example, doesn't always work.  Make sure to check for any possible
+errors for `cd` (or commands like it) and exit or break if they are present.
 
 ``` bash
 # wrong
@@ -383,13 +405,10 @@ http://mywiki.wooledge.org/BashFAQ/105
 
 Never.
 
----
+Extra
+-----
 
-None of the things listed in the link below will be accepted in this code base.
-
-http://mywiki.wooledge.org/BashPitfalls
-
-This reference also has examples on how to fix these issues.
+- http://mywiki.wooledge.org/BashPitfalls
 
 License
 -------
