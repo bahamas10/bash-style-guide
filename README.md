@@ -195,13 +195,17 @@ for f in *; do
 done
 ```
 
-### Determining path of the executable
+### Determining path of the executable (`__dirname`)
 
 Simply stated, you can't know this for sure.  If you are trying to find
 out the full path of the executing program, you should rethink your software
 design.
 
 See http://mywiki.wooledge.org/BashFAQ/028 for more information
+
+For a case study on `__dirname` in multiple languages see my blog post
+
+http://daveeddy.com/2015/04/13/dirname-case-study-for-bash-and-node/
 
 ### Arrays and lists
 
