@@ -10,6 +10,27 @@ http://mywiki.wooledge.org/BashGuide/Practices
 If anything is not mentioned explicitly in this guide, it defaults to matching
 whatever is outlined in the wiki.
 
+Fork this style guide on GitHub https://github.com/bahamas10/bash-style-guide
+
+Preface
+-------
+
+I wrote this guide originally for a project I had worked on called
+[Basher](https://github.com/bahamas10/basher).  The idea was to make a program
+like [Puppet](https://puppet.com/) or [Chef](https://www.chef.io/) but using
+nothing but Bash - simple scripts that could do automation tasks instead of
+complex ruby scripts or whatever else is used by existing configuration
+management software.
+
+Basher was fun to write, and for what it does it works pretty well.  As part of
+writing it I also wrote this style guide to show 1. how I write bash and 2. how
+bash can be safe and predictable if written carefully.
+
+This guide will try to be as objective as possible, providing reasoning for why
+certain decisions were made.  For choices that are purely aesthetic (and may
+not be universally agreeable) they will exist in the `Aesthetics` section
+below.
+
 Aesthetics
 ----------
 
@@ -36,6 +57,9 @@ name='dave'
 echo "hello $name"
 ```
 
+The exception to this rule is outlined in the `Block Statements` section below.
+Namely, semicolons should be used for control statements like `if` or `while`.
+
 ### Functions
 
 Don't use the `function` keyword.  All variables created in a function should
@@ -44,7 +68,7 @@ be made local.
 ``` bash
 # wrong
 function foo {
-    i=foo # this is now global, wrong
+    i=foo # this is now global, wrong depending on intent
 }
 
 # right
@@ -266,7 +290,8 @@ when forking external commands like `awk`, `sed`, `grep`, etc. to be as
 portable as possible.
 
 When writing bash and using all the powerful tools and builtins bash gives you,
-you'll find it rare that you need to fork external commands.
+you'll find it rare that you need to fork external commands to do simple string
+manipulation.
 
 ### [UUOC](http://www.smallo.ruhr.de/award.html)
 
@@ -340,7 +365,8 @@ fi
 
 Even though `$printf_date_supported` undergoes word-splitting in the `if`
 statement in that example, quotes are not used because the contents of that
-variable are controlled explicitly and not taken from a user or command.
+variable are controlled explicitly by the programmer and not taken from a user
+or command.
 
 Also, variables like `$$`, `$?`, `$#`, etc. don't required quotes because they
 will never contain spaces, tabs, or newlines.
@@ -399,11 +425,123 @@ Don't set `errexit`.  Like in C, sometimes you want an error, or you expect
 something to fail, and that doesn't necessarily mean you want the program
 to exit.
 
+This is a contreversial opinion that I have on the surface, but the link below
+will show situations where `set -e` can do more harm than good because of its
+implications.
+
 http://mywiki.wooledge.org/BashFAQ/105
 
 ### `eval`
 
 Never.
+
+Common Mistakes
+---------------
+
+### Using {} instead of quotes.
+
+Using `${f}` is potentially different than `"$f"` because of how word-splitting
+is performed.  For example.
+
+``` bash
+for f in '1 space' '2  spaces' '3   spaces'; do
+    echo ${f}
+done
+```
+
+yields
+
+```
+1 space
+2 spaces
+3 spaces
+```
+
+Notice that it loses the amount of spaces.  This is due to the fact that the
+variable is expanded and undergoes word-splitting because it is unquoted.  This
+loop results in the 3 following commands being executed:
+
+``` bash
+echo 1 space
+echo 2  spaces
+echo 3   spaces
+```
+
+The extra spaces are effectively ignored here and only 2 arguments are passed
+to the `echo` command in all 3 invocations.
+
+If the variable was quoted instead:
+
+``` bash
+for f in '1 space' '2  spaces' '3   spaces'; do
+    echo "$f"
+done
+```
+
+yields
+
+```
+1 space
+2  spaces
+3   spaces
+```
+
+The variable `$f` is expanded but doesn't get split at all by bash, so it is
+passed as a single string (with spaces) to the `echo` command in all 3
+invocations.
+
+Note that, for the most part `$f` is the same as `${f}` and `"$f"` is the same
+as `"${f}"`.  The curly braces should only be used to ensure the variable name
+is expanded properly.  For example:
+
+``` bash
+$ echo "$HOME is $USERs home directory"
+/home/dave is  home directory
+$ echo "$HOME is ${USER}s home directory"
+/home/dave is daves home directory
+```
+
+The braces in this example were the difference of `$USER` vs `$USERs` being
+expanded.
+
+### Abusing for-loops when while would work better
+
+`for` loops are great for iteration over arguments, or arrays.  Newline
+separated data is best left to a `while read -r ...` loop.
+
+``` bash
+users=$(awk -F: '{print $1}' /etc/passwd)
+for user in $users; do
+    echo "user is $user"
+done
+```
+
+This example reads the entire `/etc/passwd` file to extract the usernames into
+a variable separated by newlines.  The `for` loop is then used to iterate over
+each entry.
+
+This approach has a lot of issues if used on other files with data that may
+contain spaces or tabs.
+
+1. This reads *all* usernames into memory, instead of processing them in a
+streaming fashion.
+2. If the first field of that file contained spaces or tabs, the for loop would
+break on that as well as newlines
+3. This only works *because* `$users` is unquoted in the `for` loop - if
+variable expansion only works for your purposes while unquoted this is a good
+sign that something isn't implemented correctly.
+
+To rewrite this:
+
+``` bash
+while IFS=: read -r user _; do
+    echo "$user is user"
+done < /etc/passwd
+```
+
+This will read the file in a streaming fashion, not pulling it all into memory,
+and will break on colons extracting the first field and discarding (storing as
+the variable `_`) the rest - using nothing but bash builtin commands.
 
 Extra
 -----
