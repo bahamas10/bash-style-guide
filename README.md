@@ -1,58 +1,47 @@
 Bash Style Guide
 ================
 
-This style guide is meant to outline how to write bash scripts with
-a style that makes them safe and predictable.  This guide is based
-on [this wiki](http://mywiki.wooledge.org), specifically this page:
-
-http://mywiki.wooledge.org/BashGuide/Practices
-
-If anything is not mentioned explicitly in this guide, it defaults to matching
-whatever is outlined in the wiki.
-
-Fork this style guide on GitHub https://github.com/bahamas10/bash-style-guide
+This guide outlines how to write bash scripts with a style that makes them safe
+and predictable.  This guide is written by [Dave Eddy](https://daveeddy.com) as
+part of the YSAP (You Suck at Programming) series [ysap.sh](https://ysap.sh) and
+is the working document for how I approach bash scripting when it comes to
+style, design, and best-practices.
 
 Preface
 -------
-
-I wrote this guide originally for a project I had worked on called
-[Basher](https://github.com/bahamas10/basher).  The idea was to make a program
-like [Puppet](https://puppet.com/) or [Chef](https://www.chef.io/) but using
-nothing but Bash - simple scripts that could do automation tasks instead of
-complex ruby scripts or whatever else is used by existing configuration
-management software.
-
-Basher was fun to write, and for what it does it works pretty well.  As part of
-writing it I also wrote this style guide to show 1. how I write bash and 2. how
-bash can be safe and predictable if written carefully.
 
 This guide will try to be as objective as possible, providing reasoning for why
 certain decisions were made.  For choices that are purely aesthetic (and may
 not be universally agreeable) they will exist in the `Aesthetics` section
 below.
 
+Though good style alone won't ensure that your scripts are free from error, it
+can certainly help narrow the scope for bugs to exist.  This guide attempts to
+explicitly state my style choices instead of implicitly relying on a sense or a
+"vibe" of how code should be written.
+
 Aesthetics
 ----------
 
 ### Tabs / Spaces
 
-tabs.
+Tabs.
 
 ### Columns
 
-not to exceed 80.
+Not to exceed 80.
 
 ### Semicolons
 
-You don't use semicolons on the command line (I hope), don't use them in
-scripts.
+Avoid using semicolons in scripts unless required in control statements (e.g.,
+if, while).
 
 ``` bash
 # wrong
 name='dave';
 echo "hello $name";
 
-#right
+# right
 name='dave'
 echo "hello $name"
 ```
@@ -103,12 +92,14 @@ fi
 ### Spacing
 
 No more than 2 consecutive newline characters (ie. no more than 1 blank line in
-a row)
+a row).
 
 ### Comments
 
 No explicit style guide for comments.  Don't change someones comments for
 aesthetic reasons unless you are rewriting or updating them.
+
+---
 
 Bashisms
 --------
@@ -131,7 +122,8 @@ test -d /etc
 [[ -d /etc ]]
 ```
 
-See http://mywiki.wooledge.org/BashFAQ/031 for more information
+See [BashFAQ031](http://mywiki.wooledge.org/BashFAQ/031) for more information
+about these.
 
 ### Sequences
 
@@ -161,6 +153,9 @@ for ((i = 0; i < n; i++)); do
 done
 ```
 
+- [YSAP052](https://ysap.sh/v/52/)
+- [YSAP053](https://ysap.sh/v/53/)
+
 ### Command Substitution
 
 Use `$(...)` for command substitution.
@@ -169,6 +164,8 @@ Use `$(...)` for command substitution.
 foo=`date`  # wrong
 foo=$(date) # right
 ```
+
+- [YSAP022](https://ysap.sh/v/22/)
 
 ### Math / Integer Manipulation
 
@@ -193,9 +190,8 @@ Do **not** use the `let` command.
 
 ### Parameter Expansion
 
-Always prefer [parameter
-expansion](http://mywiki.wooledge.org/BashGuide/Parameters#Parameter_Expansion)
-over external commands like `echo`, `sed`, `awk`, etc.
+Always prefer parameter expansion over external commands like `echo`, `sed`,
+`awk`, etc.
 
 ``` bash
 name='bahamas10'
@@ -208,6 +204,8 @@ nonumbers=$(echo "$name" | sed -e 's/[0-9]//g')
 prog=${0##*/}
 nonumbers=${name//[0-9]/}
 ```
+
+- [YSAP026](https://ysap.sh/v/26/)
 
 ### Listing Files
 
@@ -226,16 +224,19 @@ for f in *; do
 done
 ```
 
+- [YSAP001](https://ysap.sh/v/1/)
+
 ### Determining path of the executable (`__dirname`)
 
 Simply stated, you can't know this for sure.  If you are trying to find out the
 full path of the executing program, you should rethink your software design.
 
-See http://mywiki.wooledge.org/BashFAQ/028 for more information
+See [BashFAQ028](http://mywiki.wooledge.org/BashFAQ/028) for more information
 
 For a case study on `__dirname` in multiple languages see my blog post
 
-http://daveeddy.com/2015/04/13/dirname-case-study-for-bash-and-node/
+[Dirname Case
+Study](http://daveeddy.com/2015/04/13/dirname-case-study-for-bash-and-node/)
 
 ### Arrays and lists
 
@@ -262,8 +263,11 @@ Of course, in this example it may be better expressed as:
 npm install -g "${modules[@]}"
 ```
 
-... if the command supports multiple arguments, and you are not interested in
-catching individual failures.
+... only if the command supports multiple arguments and you are not interested
+in catching individual failures.
+
+- [YSAP020](https://ysap.sh/v/20)
+- [Arrays explained in 7 minutes](https://www.youtube.com/watch?v=asHJ-xfuyno)
 
 ### read builtin
 
@@ -280,6 +284,8 @@ echo "$hostname is in $domain.$tld"
 # => "computer1 is in daveeddy.com"
 ```
 
+---
+
 External Commands
 -----------------
 
@@ -293,7 +299,9 @@ When writing bash and using all the powerful tools and builtins bash gives you,
 you'll find it rare that you need to fork external commands to do simple string
 manipulation.
 
-### [UUOC](http://www.smallo.ruhr.de/award.html)
+- [YSAP029](https://ysap.sh/v/29/)
+
+### Useless Use of Cat Award
 
 Don't use `cat(1)` when you don't need it.  If programs support reading from
 stdin, pass the data in using bash redirection.
@@ -312,6 +320,10 @@ grep foo file
 Prefer using a command line tools builtin method of reading a file instead of
 passing in stdin.  This is where we make the inference that, if a program says
 it can read a file passed by name, it's probably more performant to do that.
+
+- [UUOC](http://www.smallo.ruhr.de/award.html)
+
+---
 
 Style
 -----
@@ -349,8 +361,7 @@ bar=$foo  # no quotes needed - variable assignment doesn't word-split
 ```
 
 1. The only exception to this rule is if the code or bash controls the variable
-for the duration of its lifetime.  For instance,
-[basher](https://github.com/bahamas10/basher) has code like:
+for the duration of its lifetime.  For example code like this:
 
 ``` bash
 printf_date_supported=false
@@ -371,8 +382,9 @@ or command.
 Also, variables like `$$`, `$?`, `$#`, etc. don't required quotes because they
 will never contain spaces, tabs, or newlines.
 
-When in doubt however, [quote all
-expansions](http://mywiki.wooledge.org/Quotes).
+When in doubt; [quote all expansions](http://mywiki.wooledge.org/Quotes).
+
+- [YSAP021](https://ysap.sh/v/21/)
 
 ### Variable Declaration
 
@@ -402,7 +414,8 @@ Bash is not always located at `/bin/bash`, so use this line:
 #!/usr/bin/env bash
 ```
 
-Unless you have a reason to use something else.
+Unless you’re intentionally targeting a specific environment (e.g. `/bin/bash`
+on Linux servers with restricted PATHs).
 
 ### Error Checking
 
@@ -419,21 +432,27 @@ cd /some/path || exit
 rm file
 ```
 
-### `set -e`
+### Using `set -e`
 
 Don't set `errexit`.  Like in C, sometimes you want an error, or you expect
 something to fail, and that doesn't necessarily mean you want the program
 to exit.
 
-This is a contreversial opinion that I have on the surface, but the link below
+This is a controversial opinion that I have on the surface, but the link below
 will show situations where `set -e` can do more harm than good because of its
 implications.
 
-http://mywiki.wooledge.org/BashFAQ/105
+- [BashFAQ105](http://mywiki.wooledge.org/BashFAQ/105)
 
-### `eval`
+### Using `eval`
 
 Never.
+
+It opens your code to code injection and makes static analysis impossible.
+Almost every use-case can be solved more safely with arrays, indirect expansion,
+or proper quoting.
+
+---
 
 Common Mistakes
 ---------------
@@ -526,7 +545,7 @@ contain spaces or tabs.
 1. This reads *all* usernames into memory, instead of processing them in a
 streaming fashion.
 2. If the first field of that file contained spaces or tabs, the for loop would
-break on that as well as newlines
+break on that as well as newlines.
 3. This only works *because* `$users` is unquoted in the `for` loop - if
 variable expansion only works for your purposes while unquoted this is a good
 sign that something isn't implemented correctly.
@@ -543,10 +562,25 @@ This will read the file in a streaming fashion, not pulling it all into memory,
 and will break on colons extracting the first field and discarding (storing as
 the variable `_`) the rest - using nothing but bash builtin commands.
 
-Extra
------
+- [YSAP038](https://ysap.sh/v/38/)
 
-- http://mywiki.wooledge.org/BashPitfalls
+---
+
+References
+----------
+
+- [YSAP](https://ysap.sh)
+- [BashGuide](https://mywiki.wooledge.org/BashGuide)
+- [BashPitFalls](http://mywiki.wooledge.org/BashPitfalls)
+- [Bash Practices](http://mywiki.wooledge.org/BashGuide/Practices)
+
+Get This Guide
+--------------
+
+- `curl style.ysap.sh` - View this guide in your terminal.
+- `curl style.ysap.sh/raw` - Get the raw markdown.
+- [Website](https://style.ysap.sh) - Dedicated website for this guide.
+- [GitHub](https://github.com/bahamas10/bash-style-guide) - View the source.
 
 License
 -------

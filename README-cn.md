@@ -1,6 +1,8 @@
 Bash 风格指南
 ================
 
+(note - this is now outdated - translations welcome)
+
 本风格指南旨在描述如何编写 bash 脚本，并使其安全和可预测。本指南基于 [this wiki](http://mywiki.wooledge.org)，特别是这个页面：
 
 http://mywiki.wooledge.org/BashGuide/Practices
