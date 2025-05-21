@@ -469,7 +469,7 @@ for f in '1 space' '2  spaces' '3   spaces'; do
 done
 ```
 
-yields
+yields:
 
 ```
 1 space
@@ -498,7 +498,7 @@ for f in '1 space' '2  spaces' '3   spaces'; do
 done
 ```
 
-yields
+yields:
 
 ```
 1 space
@@ -579,7 +579,8 @@ Get This Guide
 --------------
 
 - `curl style.ysap.sh` - View this guide in your terminal.
-- `curl style.ysap.sh/raw` - Get the raw markdown.
+- `curl style.ysap.sh/plain` - View this guide without color in your terminal.
+- `curl style.ysap.sh/md` - Get the raw markdown.
 - [Website](https://style.ysap.sh) - Dedicated website for this guide.
 - [GitHub](https://github.com/bahamas10/bash-style-guide) - View the source.
 

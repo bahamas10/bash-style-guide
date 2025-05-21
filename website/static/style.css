@@ -1,0 +1,110 @@
+/**
+ * ysap.sh CSS file
+ *
+ * Author: Dave Eddy <dave@daveeddy.com>
+ * Date: April 02, 2025
+ * License: MIT
+ */
+
+/* terminal theme (from theme bash script) */
+:root {
+	--color1: #5fffff;
+	--color2: #ff87af;
+	--color3: #87ff87;
+	--color4: #666;
+	--color5: #ffd7af;
+}
+
+/* reset */
+* {
+	margin: 0;
+	padding: 0;
+}
+
+ul {
+	list-style-type: none;
+}
+
+/* helper */
+.center {
+	text-align: center;
+}
+
+.title {
+	color: var(--color3);
+}
+
+.highlight {
+	color: var(--color3);
+}
+
+.hidden {
+	display: none;
+}
+
+.float-right {
+	float: right;
+}
+
+.shadow {
+	border: 1px solid #87ff8755; /* color3 */
+	box-shadow: 0 0 200px #87ff8734;
+}
+
+@media (max-width: 650px) {
+	.hide-mobile{
+		display: none;
+	}
+}
+
+/* layout and design */
+body {
+	background-color: #000;
+	color: var(--color5);
+	font-size: 12px;
+}
+
+.ansi-content {
+	color: #bbb;
+}
+
+body, code {
+	font-family: "PT Mono", monospace;
+	font-weight: 400;
+}
+
+b, strong, h1, h2, h3, h4, h5, h6 {
+	font-weight: 900;
+}
+
+#container {
+	position: relative;
+	margin-right: auto;
+	margin-left: auto;
+	margin-top: 10px;
+	max-width: 600px;
+	padding: 0 6px;
+}
+
+a, a:visited {
+	color: var(--color1);
+	text-decoration: none;
+}
+
+a.plain-link, a.plain-link:visited {
+	color: inherit;
+}
+
+.ansi-content a, .ansi-content a:visited {
+	color: inherit;
+	text-decoration: none;
+}
+
+h1.title {
+	margin-bottom: 21px;
+}
+
+.footer {
+        text-align: center;
+        font-size: 12px;
+}

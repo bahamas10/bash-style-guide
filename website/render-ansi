@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+COLOR4=$'\x1b[38;5;241m'
+RST=$'\x1b[0m'
+
+iso8601() {
+	TZ=UTC printf '%(%Y-%m-%dT%H:%M:%SZ)T\n' -1
+}
+
+githash() {
+	git rev-parse --short HEAD
+}
+
+if [[ $1 != '-H' ]]; then
+	cat header.txt
+	echo
+fi
+./tools/bmd ../README.md | ./tools/lpad '  '
+echo
+echo "${COLOR4}  > generated $(iso8601) (git hash $(githash))$RST"
