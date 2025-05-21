@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+./render-ansi -Hp | ./tools/strip-ansi

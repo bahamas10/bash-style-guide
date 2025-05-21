@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+make-ansi() {
+	./render-ansi -H
+}
+
+template=$(< plain.html.template)
+html=$(make-ansi | ansi2html -p | ./tools/linkify)
+
+echo "${template/'{{ CONTENT }}'/"$html"}"

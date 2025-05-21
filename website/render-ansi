@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+
+COLOR4=$'\x1b[38;5;241m'
+RST=$'\x1b[0m'
+
+iso8601() {
+	TZ=UTC printf '%(%Y-%m-%dT%H:%M:%SZ)T\n' -1
+}
+
+githash() {
+	git rev-parse --short HEAD
+}
+
+header=true
+padding=''
+while getopts 'Hp' opt; do
+	case "$opt" in
+		H) header=false;;
+		p) padding='  ';;
+		*) exit 1;;
+	esac
+done
+
+if $header; then
+	cat header.txt
+	echo
+fi
+
+{
+	./tools/bmd ../README.md
+	echo
+	echo "${COLOR4}> generated $(iso8601) (git hash $(githash))$RST"
+} | ./tools/lpad "$padding"

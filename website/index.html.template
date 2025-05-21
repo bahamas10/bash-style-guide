@@ -1,0 +1,32 @@
+<!doctype html>
+<html>
+	<head>
+		<title>Bash Style Guide | ysap.sh</title>
+		<meta charset="UTF-8">
+<!--		<meta name="viewport" content="width=device-width,
+	initial-scale=1.0" />-->
+
+		<link rel="stylesheet" href="/static/style.css?v=2">
+		<link rel="stylesheet" href="/static/ansi.css">
+
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=PT+Mono&display=swap" rel="stylesheet">
+	</head>
+	<body>
+		<div id="container">
+			<h1 class="title"><a class="plain-link" href="/">Bash Style Guide</a></h1>
+			<pre><code><span class="highlight">$ curl</span> style.ysap.sh</code></pre><br>
+			Alternative Formats:
+				<a href="/plain" target="_blank">Plain</a>,
+				<a href="/md" target="_blank">Markdown</a>,
+				<a href="https://github.com/bahamas10/bash-style-guide" target="_blank">GitHub</a>.
+			<br>
+			<pre><code class="ansi-content">{{ CONTENT }}</code></pre>
+			<pre class="footer"><code>
+source: <a class="alt" href="https://github.com/bahamas10/bash-style-guide">github.com/bahamas10/bash-style-guide</a>
+&copy; dave eddy - <a href="https://ysap.sh">ysap</a> <script>document.write(new Date().getFullYear())</script>
+			</code></pre>
+		</div>
+	</body>
+</html>
