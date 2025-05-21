@@ -1,0 +1,15 @@
+<!doctype html>
+<html>
+	<head>
+		<title>Bash Style Guide | ysap.sh</title>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	</head>
+	<body>
+		<pre><code class="ansi-content">{{ CONTENT }}</code></pre>
+		<pre class="footer"><code>
+source: <a class="alt" href="https://github.com/bahamas10/bash-style-guide">github.com/bahamas10/bash-style-guide</a>
+&copy; dave eddy - <a href="https://ysap.sh">ysap</a> <script>document.write(new Date().getFullYear())</script>
+		</code></pre>
+	</body>
+</html>
