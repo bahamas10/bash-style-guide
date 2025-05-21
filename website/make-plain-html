@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 make-ansi() {
-	./make-plain-ansi
+	./render-ansi -H
 }
 
 template=$(< plain.html.template)

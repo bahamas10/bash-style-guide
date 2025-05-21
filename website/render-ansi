@@ -11,10 +11,23 @@ githash() {
 	git rev-parse --short HEAD
 }
 
-if [[ $1 != '-H' ]]; then
+header=true
+padding=''
+while getopts 'Hp' opt; do
+	case "$opt" in
+		H) header=false;;
+		p) padding='  ';;
+		*) exit 1;;
+	esac
+done
+
+if $header; then
 	cat header.txt
 	echo
 fi
-./tools/bmd ../README.md | ./tools/lpad '  '
-echo
-echo "${COLOR4}  > generated $(iso8601) (git hash $(githash))$RST"
+
+{
+	./tools/bmd ../README.md
+	echo
+	echo "${COLOR4}> generated $(iso8601) (git hash $(githash))$RST"
+} | ./tools/lpad "$padding"
