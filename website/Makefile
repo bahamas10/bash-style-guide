@@ -18,7 +18,7 @@ help:
 	@echo 'make clean         remove any generated files'
 
 .PHONY: build
-build: header.txt
+build: header.txt favicon.ico
 	mkdir -p _site _site/static _site/plain _site/md
 	# disable indexing for certain dirs
 	echo -n > _site/static/index.html
@@ -26,6 +26,7 @@ build: header.txt
 	cat static/robots.txt > _site/robots.txt
 	cat static/style.css > _site/static/style.css
 	cat static/ansi.css > _site/static/ansi.css
+	cat favicon.ico > _site/favicon.ico
 	# render all available formats
 	./make-index-ansi > _site/index.txt
 	./make-index-html > _site/index.html
@@ -36,6 +37,9 @@ build: header.txt
 
 header.txt:
 	curl ysap.sh | head -8 > $@
+
+favicon.ico:
+	curl -o $@ https://ysap.sh/favicon.ico
 
 .PHONY: all
 all: build deploy
