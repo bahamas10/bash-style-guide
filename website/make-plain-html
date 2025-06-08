@@ -5,6 +5,6 @@ make-ansi() {
 }
 
 template=$(< plain.html.template)
-html=$(make-ansi | ansi2html -p | ./tools/linkify)
+html=$(make-ansi | ./tools/bansi-to-html | ./tools/linkify)
 
 echo "${template/'{{ CONTENT }}'/"$html"}"
