@@ -389,9 +389,10 @@ When in doubt; [quote all expansions](http://mywiki.wooledge.org/Quotes).
 
 ### Variable Declaration
 
-Avoid uppercase variable names unless there's a good reason to use them.
-Don't use `let` or `readonly` to create variables.  `declare` should *only*
-be used for associative arrays.  `local` should *always* be used in functions.
+Avoid uppercase variable names unless they 1. are constants or 2. are exported
+to the environment using `export`.  Don't use `let` or `readonly` to create
+variables.  `declare` should *only* be used for associative arrays.  `local`
+should *always* be used in functions.
 
 ``` bash
 # wrong
@@ -404,7 +405,7 @@ FOOBAR=baz
 i=5
 ((i++))
 bar='something'
-foobar=baz
+export FOOBAR=baz
 ```
 
 ### shebang
