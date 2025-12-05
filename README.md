@@ -122,6 +122,7 @@ test -d /etc
 [[ -d /etc ]]
 ```
 
+- [YSAP066](https://ysap.sh/v/66)
 See [BashFAQ031](http://mywiki.wooledge.org/BashFAQ/031) for more information
 about these.
 
@@ -322,6 +323,7 @@ Prefer using a command line tools builtin method of reading a file instead of
 passing in stdin.  This is where we make the inference that, if a program says
 it can read a file passed by name, it's probably more performant to do that.
 
+- [Your Using `cat` Wrong](https://www.youtube.com/watch?v=vAK55aiRLeY)
 - [UUOC](http://www.smallo.ruhr.de/award.html)
 
 ---
@@ -419,6 +421,8 @@ Bash is not always located at `/bin/bash`, so use this line:
 Unless you’re intentionally targeting a specific environment (e.g. `/bin/bash`
 on Linux servers with restricted PATHs).
 
+- [Shebangs are Weird](https://www.youtube.com/watch?v=aoHMiCzqCNw)
+
 ### Error Checking
 
 `cd`, for example, doesn't always work.  Make sure to check for any possible
@@ -444,6 +448,7 @@ This is a controversial opinion that I have on the surface, but the link below
 will show situations where `set -e` can do more harm than good because of its
 implications.
 
+- [The Problem with Bash "strict mode"](https://www.youtube.com/watch?v=4Jo3Ml53kvc)
 - [BashFAQ105](http://mywiki.wooledge.org/BashFAQ/105)
 
 ### Using `eval`
