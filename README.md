@@ -5,14 +5,14 @@ This guide outlines how to write bash scripts with a style that makes them safe
 and predictable.  This guide is written by [Dave Eddy](https://daveeddy.com) as
 part of the YSAP (You Suck at Programming) series [ysap.sh](https://ysap.sh) and
 is the working document for how I approach bash scripting when it comes to
-style, design, and best-practices.
+style, design, and best practices.
 
 Preface
 -------
 
 This guide will try to be as objective as possible, providing reasoning for why
-certain decisions were made.  For choices that are purely aesthetic (and may
-not be universally agreeable) they will exist in the `Aesthetics` section
+certain decisions were made.  Choices that are purely aesthetic (and may
+not be universally agreeable) will exist in the `Aesthetics` section
 below.
 
 Though good style alone won't ensure that your scripts are free from error, it
@@ -91,12 +91,12 @@ fi
 
 ### Spacing
 
-No more than 2 consecutive newline characters (ie. no more than 1 blank line in
+No more than 2 consecutive newline characters (i.e., no more than 1 blank line in
 a row).
 
 ### Comments
 
-No explicit style guide for comments.  Don't change someones comments for
+No explicit style guide for comments.  Don't change someone's comments for
 aesthetic reasons unless you are rewriting or updating them.
 
 ---
@@ -104,7 +104,7 @@ aesthetic reasons unless you are rewriting or updating them.
 Bashisms
 --------
 
-This style guide is for bash.  This means when given the choice, always prefer
+This style guide is for bash.  This means that, when given the choice, always prefer
 bash builtins or keywords instead of external commands or `sh(1)` syntax.
 
 ### `test(1)`
@@ -211,8 +211,8 @@ nonumbers=${name//[0-9]/}
 
 ### Listing Files
 
-Do not [parse ls(1)](http://mywiki.wooledge.org/ParsingLs), instead use
-bash builtin functions to loop files
+Do not [parse ls(1)](http://mywiki.wooledge.org/ParsingLs); instead, use
+bash builtin functions to loop through files
 
 ``` bash
 # very wrong, potentially unsafe
@@ -235,7 +235,7 @@ full path of the executing program, you should rethink your software design.
 
 See [BashFAQ028](http://mywiki.wooledge.org/BashFAQ/028) for more information
 
-For a case study on `__dirname` in multiple languages see my blog post
+For a case study on `__dirname` in multiple languages, see my blog post
 
 [Dirname Case
 Study](http://daveeddy.com/2015/04/13/dirname-case-study-for-bash-and-node/)
@@ -259,7 +259,7 @@ for module in "${modules[@]}"; do
 done
 ```
 
-Of course, in this example it may be better expressed as:
+Of course, in this example, it may be better expressed as:
 
 ``` bash
 npm install -g "${modules[@]}"
@@ -293,8 +293,8 @@ External Commands
 
 ### GNU userland tools
 
-The whole world doesn't run on GNU or on Linux; avoid GNU specific options
-when forking external commands like `awk`, `sed`, `grep`, etc. to be as
+The whole world doesn't run on GNU or on Linux; avoid GNU-specific options
+when forking external commands like `awk`, `sed`, `grep`, etc., to be as
 portable as possible.
 
 When writing bash and using all the powerful tools and builtins bash gives you,
@@ -319,11 +319,11 @@ grep foo < file
 grep foo file
 ```
 
-Prefer using a command line tools builtin method of reading a file instead of
+Prefer using a command line tool's builtin method of reading a file instead of
 passing in stdin.  This is where we make the inference that, if a program says
 it can read a file passed by name, it's probably more performant to do that.
 
-- [Your Using `cat` Wrong](https://www.youtube.com/watch?v=vAK55aiRLeY)
+- [You’re Using `cat` Wrong](https://www.youtube.com/watch?v=vAK55aiRLeY)
 - [UUOC](http://www.smallo.ruhr.de/award.html)
 
 ---
@@ -364,7 +364,7 @@ bar=$foo  # no quotes needed - variable assignment doesn't word-split
 ```
 
 1. The only exception to this rule is if the code or bash controls the variable
-for the duration of its lifetime.  For example code like this:
+for the duration of its lifetime.  For example, code like this:
 
 ``` bash
 printf_date_supported=false
@@ -385,13 +385,13 @@ or command.
 Also, variables like `$$`, `$?`, `$#`, etc. don't required quotes because they
 will never contain spaces, tabs, or newlines.
 
-When in doubt; [quote all expansions](http://mywiki.wooledge.org/Quotes).
+When in doubt, [quote all expansions](http://mywiki.wooledge.org/Quotes).
 
 - [YSAP021](https://ysap.sh/v/21/)
 
 ### Variable Declaration
 
-Avoid uppercase variable names unless they 1. are constants or 2. are exported
+Avoid uppercase variable names unless they are constants or are exported
 to the environment using `export`.  Don't use `let` or `readonly` to create
 variables.  `declare` should *only* be used for associative arrays.  `local`
 should *always* be used in functions.
@@ -418,7 +418,7 @@ Bash is not always located at `/bin/bash`, so use this line:
 #!/usr/bin/env bash
 ```
 
-Unless you’re intentionally targeting a specific environment (e.g. `/bin/bash`
+Unless you’re intentionally targeting a specific environment (e.g., `/bin/bash`
 on Linux servers with restricted PATHs).
 
 - [Shebangs are Weird](https://www.youtube.com/watch?v=aoHMiCzqCNw)
@@ -431,7 +431,7 @@ errors for `cd` (or commands like it) and exit or break if they are present.
 ``` bash
 # wrong
 cd /some/path # this could fail
-rm file       # if cd fails where am I? what am I deleting?
+rm file       # if cd fails, where am I? what am I deleting?
 
 # right
 cd /some/path || exit
@@ -456,7 +456,7 @@ implications.
 Never.
 
 It opens your code to code injection and makes static analysis impossible.
-Almost every use-case can be solved more safely with arrays, indirect expansion,
+Almost every use case can be solved more safely with arrays, indirect expansion,
 or proper quoting.
 
 ---
@@ -493,7 +493,7 @@ echo 2  spaces
 echo 3   spaces
 ```
 
-The extra spaces are effectively ignored here and only 2 arguments are passed
+The extra spaces are effectively ignored here, and only 2 arguments are passed
 to the `echo` command in all 3 invocations.
 
 If the variable was quoted instead:
@@ -516,7 +516,7 @@ The variable `$f` is expanded but doesn't get split at all by bash, so it is
 passed as a single string (with spaces) to the `echo` command in all 3
 invocations.
 
-Note that, for the most part `$f` is the same as `${f}` and `"$f"` is the same
+Note that, for the most part, `$f` is the same as `${f}` and `"$f"` is the same
 as `"${f}"`.  The curly braces should only be used to ensure the variable name
 is expanded properly.  For example:
 
@@ -532,7 +532,7 @@ expanded.
 
 ### Abusing for-loops when while would work better
 
-`for` loops are great for iteration over arguments, or arrays.  Newline
+`for` loops are great for iteration over arguments or arrays.  Newline
 separated data is best left to a `while read -r ...` loop.
 
 ``` bash
@@ -553,8 +553,8 @@ contain spaces or tabs.
 streaming fashion.
 2. If the first field of that file contained spaces or tabs, the for loop would
 break on that as well as newlines.
-3. This only works *because* `$users` is unquoted in the `for` loop - if
-variable expansion only works for your purposes while unquoted this is a good
+3. This only works *because* `$users` is unquoted in the `for` loop; if
+variable expansion only works for your purposes while unquoted, this is a good
 sign that something isn't implemented correctly.
 
 To rewrite this:
@@ -566,7 +566,7 @@ done < /etc/passwd
 ```
 
 This will read the file in a streaming fashion, not pulling it all into memory,
-and will break on colons extracting the first field and discarding (storing as
+and will break on colons, extracting the first field and discarding (storing as
 the variable `_`) the rest - using nothing but bash builtin commands.
 
 - [YSAP038](https://ysap.sh/v/38/)
