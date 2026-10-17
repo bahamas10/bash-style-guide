@@ -91,8 +91,8 @@ fi
 
 ### Spacing
 
-No more than 2 consecutive newline characters (i.e., no more than 1 blank line in
-a row).
+No more than 2 consecutive newline characters (i.e., no more than 1 blank line
+in a row).
 
 ### Comments
 
@@ -104,8 +104,8 @@ aesthetic reasons unless you are rewriting or updating them.
 Bashisms
 --------
 
-This style guide is for bash.  This means that, when given the choice, always prefer
-bash builtins or keywords instead of external commands or `sh(1)` syntax.
+This style guide is for bash.  This means that, when given the choice, always
+prefer bash builtins or keywords instead of external commands or `sh(1)` syntax.
 
 ### `test(1)`
 
@@ -323,7 +323,7 @@ Prefer using a command line tool's builtin method of reading a file instead of
 passing in stdin.  This is where we make the inference that, if a program says
 it can read a file passed by name, it's probably more performant to do that.
 
-- [You’re Using `cat` Wrong](https://www.youtube.com/watch?v=vAK55aiRLeY)
+- [You're Using `cat` Wrong](https://www.youtube.com/watch?v=vAK55aiRLeY)
 - [UUOC](http://www.smallo.ruhr.de/award.html)
 
 ---
@@ -418,7 +418,7 @@ Bash is not always located at `/bin/bash`, so use this line:
 #!/usr/bin/env bash
 ```
 
-Unless you’re intentionally targeting a specific environment (e.g., `/bin/bash`
+Unless you're intentionally targeting a specific environment (e.g., `/bin/bash`
 on Linux servers with restricted PATHs).
 
 - [Shebangs are Weird](https://www.youtube.com/watch?v=aoHMiCzqCNw)
@@ -448,7 +448,8 @@ This is a controversial opinion that I have on the surface, but the link below
 will show situations where `set -e` can do more harm than good because of its
 implications.
 
-- [The Problem with Bash "strict mode"](https://www.youtube.com/watch?v=4Jo3Ml53kvc)
+- [The Problem with Bash
+"strict - mode"](https://www.youtube.com/watch?v=4Jo3Ml53kvc)
 - [BashFAQ105](http://mywiki.wooledge.org/BashFAQ/105)
 
 ### Using `eval`
