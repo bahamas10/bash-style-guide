@@ -99,6 +99,37 @@ in a row).
 No explicit style guide for comments.  Don't change someone's comments for
 aesthetic reasons unless you are rewriting or updating them.
 
+### Pipelines
+
+Pipelines should remain on one line when they fit within 80 columns.  When
+wrapping a long pipeline, each command must be on its own line, each
+continuation line must be indented 4 spaces and begin with `|` (or `|&`), and
+the preceding line must end with a backslash.
+
+``` bash
+# this is ok
+foo | bar | baz | bat
+
+# this is also ok
+foo \
+    | bar \
+    | baz \
+    | bat
+
+# this is wrong
+foo |
+  bar |
+  baz |
+  bat
+```
+
+### Tools
+
+Also available in the references section, this tool can check for *basic* style
+(in fact, it is used to check this document itself).
+
+- [YSAP Style Checker](https://github.com/bahamas10/style-check)
+
 ---
 
 Bashisms
@@ -581,6 +612,7 @@ References
 - [BashGuide](https://mywiki.wooledge.org/BashGuide)
 - [BashPitFalls](http://mywiki.wooledge.org/BashPitfalls)
 - [Bash Practices](http://mywiki.wooledge.org/BashGuide/Practices)
+- [YSAP Style Checker](https://github.com/bahamas10/style-check)
 
 Get This Guide
 --------------
