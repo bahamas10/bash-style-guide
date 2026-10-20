@@ -1,8 +1,6 @@
 #!/usr/bin/env bash
 
 make-ansi() {
-	echo '---' | ./tools/bmd
-	echo
 	./render-ansi -H
 }
 
